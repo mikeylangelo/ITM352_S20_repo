@@ -4,7 +4,6 @@
  html {
   
     font-family: 'Raleway', sans-serif;
-    background-color: yellow;
     font-size: 10px;
     
   }
@@ -115,7 +114,19 @@
   
   /* Styling the products */
   
-  
+  .rotate img
+{
+  animation: rotation .3s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
   section {
     width: 45%;
     margin: 5px;
