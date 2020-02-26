@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Smartphone Products</title>
+    <style id="localstyle"></style>
+    <input id='speedSlider' type='range' min=".1" max="5" step=".1" style="direction: rtl"
+    onchange="localStyle.innerHTML = '.rotate img {animation-duration: ' + speedSlider.value + 's;}';">
 </head>
 <body>
     <header><h1>Used Smart Phone Store</h1></header>
