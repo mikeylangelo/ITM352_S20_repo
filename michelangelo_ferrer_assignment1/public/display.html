@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Shop</title>
+    <script src="products.js"></script>
+</head>
+
+<body>
+
+    <form name='products' action="/process_purchase" method="POST">
+    
+            <script>
+                /*Based on SmartPhoneProducts.*/
+                for (i = 0; i < products.length; i++) {
+                    document.write(`
+                        <section>
+                            ${products[i].name}
+                            $${products[i].price.toFixed(2)}
+                            <img src="images/${products[i].image}">
+                            <input type='text'>
+                        </section>
+                    `);
+                    }
+
+            </script>
+
+        <input type='submit' name='' value="Purchase">
+
+    </form>
+
+</body>
+
+</html>

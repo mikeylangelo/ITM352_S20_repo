@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <script src="products.js"></script>
+</head>
+<body>
+    <table border="1">
+        <tbody>
+            <tr>
+              <th style="text-align: center;" width="43%">Item</th>
+              <th style="text-align: center;" width="11%">quantity</th>
+              <th style="text-align: center;" width="13%">price</th>
+            </tr>
+        <script>
+            /*Based on SmartPhoneProducts.*/
+            for (i = 0; i < products.length; i++) {
+            document.write(`
+                <tr>
+                    <td>${products[i].name}</td>
+                    <td></td>
+                    <td>\$${products[i].price.toFixed(2)}</td>
+                </tr>
+            `);
+            }
+      </script>
+    </table>
+</body>
+</html>
