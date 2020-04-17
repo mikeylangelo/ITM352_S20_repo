@@ -26,4 +26,8 @@ products =
         "price": 3.00,
         "image": 'hydrangeas.jpg'
     }
-]
+];
+
+if(typeof module != 'undefined'){
+    module.exports.products = products;
+}
