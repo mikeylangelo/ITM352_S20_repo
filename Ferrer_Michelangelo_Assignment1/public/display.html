@@ -1,33 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>  
-    <link href="style.css" rel="stylesheet">
+    <link href="products-style.css.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flower Shop</title>
     <script src="product_data.js"></script>
 </head>
 
-<body>
-
-    <form name='products' action="" method="POST">
+<style>
+    body{
+        font-family:cursive;
+        background-image: url(./images/background.jpg);
+        background-size: 1300px;
     
-            <script>
-                /*Based on SmartPhoneProducts.*/
-                for (i = 0; i < products.length; i++) {
-                    document.write(`
-                        <section>
-                            ${products[i].name}
-                            $${products[i].price.toFixed(2)}
-                            <img src="images/${products[i].image}">
-                            <input type='text' placeholder='0' name="${products[i].name}">
-                        </section>
-                    `);
-                    }
+    }
+    img{
+        height:250px;
+        width:250px;
+        margin-top:25px;
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+   div{
+       text-align:center;
+       margin-right: 25px;
+       
+   }
+   form{
+       text-align: right;
+   }
+header{
+    text-align:center;
 
-            </script>
-
-        <input type='submit' name='purchase_flowers' value="Purchase">
+}
+    
+</style>
+<body>
+    <header>
+        <h1>Local Florist</h1>
+        <p>Choose the flowers you want to include with your bouquet.</p>
+        <p>Click "Purchase" at the bottom when you are finished to proceed.</p>
+    </header>
+    <p id="message"></p>
+    <form name='products' action="" method="POST">
+            <main>
+                
+                ${display_products()}
+       
+            </main>
+            <br>
+        
+        <input position="right" type='submit'  name='purchase_flowers' value="Purchase">
 
     </form>
 
@@ -35,3 +59,22 @@
 
 </html>
 
+<script>
+function isNonNegInt(p, return_errors = false) {
+    errors = []; // assume no errors at first
+    if(p == '') p =0; // handle blank inputs as if they are 0
+    if (Number(p) != p) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
+    else if (p < 0) errors.push('Negativevalue'); // Check if it is non-negative
+    else if (parseInt(p) != p) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
+    return return_errors ? errors : (errors.length == 0);
+}
+
+
+function checkQuantityTextbox(theTextbox) {
+    errs = isNonNegInt(theTextbox.value, true);
+    if (errs.length == 0) errs = ['You want:'];
+    if (theTextbox.value.trim() == '') errs = ['Quantity'];
+    document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
+}
+
+    </script>
