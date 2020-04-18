@@ -1,12 +1,50 @@
+<script>
+    /* This page is generated in the loop if isNonNegInt is false*/
+</script>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Local Florist</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
 </head>
+<style>
+    body {
+        text-align: center;
+        background-image: url(./images/errorimage.png);
+        background-size: 1000px;
+        font-family: 'Dosis';
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    div {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -350px;
+
+    }
+
+    button {
+        font-family: 'Dosis';
+        font-size: 20px;
+        background-color: rgb(197, 21, 21);
+        color: white;
+        border: none;
+        margin-top: 25px;
+    }
+</style>
+
 <body>
-    You have entered invalid quantities(Not allowed). Please click continue and try again.
-    <a href="display.html">Continue</a>
+    <div>
+        You have entered invalid quantities(Special characters, letters, and negative numbers).<br>
+        Please try again.<br>
+        <button onclick="location.href = 'display.html';">RETURN TO SHOP</button>
+    </div>
 </body>
+
 </html>

@@ -1,7 +1,11 @@
+<script>
+    /* This page is generated in whenever there is a GET request to display.html*/
+</script>
 <!DOCTYPE html>
 <html lang="en">
-<head>  
-    <link href="products-style.css.css" rel="stylesheet">
+
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flower Shop</title>
@@ -9,52 +13,84 @@
 </head>
 
 <style>
-    body{
-        font-family:cursive;
+    body {
         background-image: url(./images/background.jpg);
         background-size: 1300px;
-    
+
     }
-    img{
-        height:250px;
-        width:250px;
-        margin-top:25px;
+
+    p {
+        font-family: 'Dosis';
+        font-size: 23px;
+    }
+
+    h1 {
+        font-family: 'Princess Sofia';
+        font-size: 100px;
+    }
+
+    main {
+        font-family: 'Averia Sans Libre';
+        font-size: 20px;
+    }
+
+    img {
+        height: 250px;
+        width: 250px;
+        margin-top: 25px;
         margin-left: 25px;
         margin-right: 25px;
-    }
-   div{
-       text-align:center;
-       margin-right: 25px;
-       
-   }
-   form{
-       text-align: right;
-   }
-header{
-    text-align:center;
 
-}
-    
+    }
+
+    div {
+        text-align: center;
+        margin-right: 25px;
+
+    }
+
+    form {
+        text-align: center;
+
+    }
+
+    header {
+        text-align: center;
+    }
+
+    input[type=text] {
+        text-align: center;
+        font-family: 'Dosis';
+        font-size: 15px
+    }
+
+    input[type=submit] {
+        font-family: 'Dosis';
+        font-weight: bold;
+        font-size: 40px;
+        background-color: rgb(197, 21, 21);
+        color: white;
+        border: none;
+        margin-right: 25px;
+        margin-top: 25px;
+    }
 </style>
+
 <body>
     <header>
         <h1>Local Florist</h1>
-        <p>Choose the flowers you want to include with your bouquet.</p>
-        <p>Click "Purchase" at the bottom when you are finished to proceed.</p>
+        <p>Choose the quantity of flowers you want to include with your bouquet.<br>
+            When youre done with your selection, click "Purchase"at the bottom to proceed.
+        </p>
     </header>
     <p id="message"></p>
     <form name='Flowers' action="" method="POST">
-            <main>
-                
-                ${display_products()}
-       
-            </main>
-            <br>
-        
-        <input type='submit'  name='purchase_flowers' value="Purchase">
-
+        <main>
+            ${display_products()}
+        </main>
+        <br>
+        <input type='submit' name='purchase_flowers' value="Purchase">
     </form>
-
 </body>
 
 </html>
