@@ -43,7 +43,7 @@ header{
         <p>Click "Purchase" at the bottom when you are finished to proceed.</p>
     </header>
     <p id="message"></p>
-    <form name='products' action="" method="POST">
+    <form name='Flowers' action="" method="POST">
             <main>
                 
                 ${display_products()}
@@ -51,30 +51,10 @@ header{
             </main>
             <br>
         
-        <input position="right" type='submit'  name='purchase_flowers' value="Purchase">
+        <input type='submit'  name='purchase_flowers' value="Purchase">
 
     </form>
 
 </body>
 
 </html>
-
-<script>
-function isNonNegInt(p, return_errors = false) {
-    errors = []; // assume no errors at first
-    if(p == '') p =0; // handle blank inputs as if they are 0
-    if (Number(p) != p) errors.push('<font color="red">Not a number!</font>'); // Check if string is a number value
-    else if (p < 0) errors.push('Negativevalue'); // Check if it is non-negative
-    else if (parseInt(p) != p) errors.push('<font color="red">Not an integer!</font>'); // Check that it is an integer
-    return return_errors ? errors : (errors.length == 0);
-}
-
-
-function checkQuantityTextbox(theTextbox) {
-    errs = isNonNegInt(theTextbox.value, true);
-    if (errs.length == 0) errs = ['You want:'];
-    if (theTextbox.value.trim() == '') errs = ['Quantity'];
-    document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
-}
-
-    </script>
