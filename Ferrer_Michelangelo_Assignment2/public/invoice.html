@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Invoice</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
+</head>
+
+<script>
+  // Comments
+
+  /*
+  Server will read invoice.html and store it as 'contents' using readFileSync.
+  This is why we do not need invoice in script, since it will read the template
+  strings automatically.
+
+  The layout and table structure was based on order_page.html of Lab 12 by me.
+  */
+</script>
+
+<style>
+  table {
+    font-family: 'Dosis';
+    text-align: center;
+    font-size: 25px;
+  }
+
+  p {
+    text-align: center;
+    font-family: 'Averia Sans Libre';
+    font-weight: bold;
+    font-size: 40px;
+  }
+
+  section {
+    text-align: center;
+  }
+
+  img {
+    width: 150px;
+    height: 100px
+  }
+</style>
+
+<body>
+
+  <table border="1" align="center">
+    <tbody>
+      <tr>
+        <th style="text-align: center;" width="40%">Flowers</th>
+        <th style="text-align: center;" width="25%">Quantity</th>
+        <th style="text-align: center;" width="25%">Price</th>
+        <th style="text-align: center;" width="100%">Total</th>
+      </tr>
+      ${display_invoice_table_rows()}
+      <tr>
+        <td colspan="4" width="100%">&nbsp;</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%">Sub-total</td>
+        <td width="54%">$${subtotal.toFixed(2)}
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%">
+          <span">Tax (
+            ${(100 * tax_rate)}%)</span>
+        </td>
+        <td width="54%">\$${tax.toFixed(2)}</td>
+      </tr>
+
+      <tr>
+        <td style="text-align: center;" colspan="3" width="67%"><strong>Grand Total</strong></td>
+        <td width="54%"><strong>\$${grandtotal.toFixed(2)}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+  <section>
+    <p>Thank you for your purchase!</p>
+    <img src="images/thankyou.jpg">
+
+  </section>
+
+</body>
+
+</html>
