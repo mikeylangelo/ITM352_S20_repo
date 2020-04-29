@@ -31,45 +31,19 @@ such as the display.html and invoice.html which contains the layout for the func
 which inputs the data the server has on to the static files.
 */
 
-
+var display_contents = fs.readFileSync('./public/display.html', 'utf8');
 app.get("/display.html", function (request, response) {
-    var contents = fs.readFileSync('./public/display.html', 'utf8');
-    response.send(eval('`' + contents + '`')); //Renders the display.html file and passes the GET data through
-
-    //Used in display.html whenever there is a GET request for the page
-    function display_products() {
-        str = '';
-        for (i = 0; i < products.length; i++) {
-            str += `
-        <section>
-            <div>
-            <img src="/images/${products[i].image}">
-            </div>
-         </section>
-         <section>
-            <div>
-             ${products[i].name}:
-             $${products[i].price.toFixed(2)}
-             </div>
-             <div>
-             <input type="text" name="${products[i].name}" 
-             onkeyup="checkQuantityTextbox(this);">
-             </div
-         </section>
-            `;
-        }
-        return str;
-    }
+    response.send(eval('`' + display_contents + '`')); //Renders the display.html file and passes the GET data through
 });
 
-var contents = fs.readFileSync('./public/invoice.html', 'utf8');
-app.post("/login.html", function (request, response){
+var invoice_contents = fs.readFileSync('./public/invoice.html', 'utf8');
+app.post("/login.html", function (request, response) {
     let POST = request.body
     p = POST['purchase_submit']
-    response.send(eval('`' + contents + '`')); //Renders the invoice.html file and passes the POST data through
+    response.send(eval('`' + invoice_contents + '`')); //Renders the invoice.html file and passes the POST data through
 });
 
-app.post("/register.html", function (requqest, response){
+app.post("/register.html", function (requqest, response) {
 
 });
 
@@ -79,11 +53,11 @@ app.post("/display.html", function (request, response, ) { //Handles all POST re
         p = POST[`${products[i].name}`]
         //Passes data through isNonNegInt() if it is false it create the invoice else it will redirect to an error page
         if (isNonNegInt(p, false)) {
-            input_data = request.body["`${products[i].name}`"];
-            purchase_quantity_data[input_data]={};
-            purchase_quantity_data.quantity = p
+            input_data = request.body[`${products[i].name}`];
+            purchase_quantity_data[input_data] = {};
+            purchase_quantity_data[input_data].quantity = p
             fs.writeFileSync(data, JSON.stringify(purchase_quantity_data));
-        //Redirect to login before generating invoice
+            //Redirect to login before generating invoice
             response.redirect('login.html')
         }
         else {
@@ -96,15 +70,43 @@ app.use(express.static('./public')); //Hosts static files in public directory.
 
 app.listen(8080, () => console.log(`Listening...`)); //Location of port and send a message to console to indicate running server.
 
- //Used in response.send(eval(contents))
+/*Functions*/
+
+//Used in response.send(eval(contents)) app.get(display.html). Generates display page
+function display_products() {
+    str = '';
+    for (i = 0; i < products.length; i++) {
+        str += `
+    <section>
+        <div>
+        <img src="/images/${products[i].image}">
+        </div>
+     </section>
+     <section>
+        <div>
+         ${products[i].name}:
+         $${products[i].price.toFixed(2)}
+         </div>
+         <div>
+         <input type="text" name="${products[i].name}" 
+         onkeyup="checkQuantityTextbox(this);">
+         </div
+     </section>
+        `;
+    }
+    return str;
+}
+
+//Used in response.send(eval(contents)) app.post(). Generates invoice.
 function display_invoice_table_rows() {
     subtotal = 0;
     str = '';
     for (i = 0; i < products.length; i++) {
-        p = 0;
+        p = POST[`${products[i].name}`]; //Defines any POST requests which have been defined in display.html
         if (typeof POST[`${products[i].name}`] != 'undefined') {
-            p = POST[`${products[i].name}`]; //Defines any POST requests which have been defined in display.html
+           console.log('No data');
         }
+          /* Based on order_page.html of Lab 12 completed by me*/
         if (p > 0) {
 
             extended_price = p * products[i].price
@@ -119,8 +121,6 @@ function display_invoice_table_rows() {
                 `);
         }
     }
-
-    /* Based on order_page.html of Lab 12 completed by me*/
 
     // Compute tax
     tax_rate = 0.1;
