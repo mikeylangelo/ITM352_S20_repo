@@ -1,6 +1,3 @@
-<script>
-    /* This page is generated in whenever there is a GET request to display.html*/
-</script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,7 +11,7 @@
 
 <style>
     body {
-        background-image: url(./images/background.jpg);
+        background-image: url(./images/displaybackground.jpg);
         background-size: 1300px;
 
     }
@@ -68,7 +65,7 @@
         font-family: 'Dosis';
         font-weight: bold;
         font-size: 40px;
-        background-color: rgb(197, 21, 21);
+        background-color: rgb(214, 182, 0);
         color: white;
         border: none;
         margin-right: 25px;
@@ -94,21 +91,3 @@
 </body>
 
 </html>
-
-<script>
-function checkQuantityTextbox(theTextbox) {
-    errs = isNonNegInt(theTextbox.value, true);
-    if (errs.length == 0) errs = ['You want:'];
-    if (theTextbox.value.trim() == '') errs = ['Quantity'];
-    document.getElementById(theTextbox.name + '_label').innerHTML = errs.join(", ");
-}
-
-function isNonNegInt(p, return_errors = false) {
-    errors = []; //Initially assume no errors
-    if (p == '') p = 0; //Blank inputs is zero
-    if (Number(p) != p) errors.push(''); //Check if string is a number value
-    else if (p < 0) errors.push(''); //Check if it is non-negative
-    else if (parseInt(p) != p) errors.push('<'); //Check that it is an integer
-    return return_errors ? errors : (errors.length == 0);
-}
-</script>

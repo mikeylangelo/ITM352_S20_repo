@@ -4,14 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
 </head>
+
+<style>
+    header{
+            font-family: 'Averia Sans Libre';
+            font-size: 50px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+    
+    body {
+            background-image: url(./images/logregbackground.jpg);
+            background-size: 1150px;
+    
+        }
+    h1{
+        font-family: 'Averia Sans Libre';
+            font-size: 15px;
+    }
+    
+    form{
+        text-align: center;
+    }
+    
+    input[type=text], input[type=password], input[type=email] {
+            text-align: center;
+            font-family: 'Dosis';
+            font-size: 15px
+        }
+    
+    input[type=submit] {
+            font-family: 'Dosis';
+            font-weight: bold;
+            font-size: 25px;
+            background-color: rgb(197, 21, 109);
+            color: white;
+            border: none;
+        }
+    
+    </style>
+
 <body>
+    <header>Login to complete your purchase!</header>
     <form action="" method="POST">
-    <input type="text" name="username" size="40" placeholder="enter username" ><br />
-    <input type="password" name="password" size="40" placeholder="enter password"><br />
-    <input type="submit" value="Submit" id="submit">
+    <input type="text" name="username" size="40" placeholder="Username" ><br />
+    <input type="password" name="password" size="40" placeholder="Password"><br />
+    <h1>New user? Click <a href="register.html"> here</a> to register.</h1><br />
+    <input type="submit" value="Login" id="submit">
     </form>
-    New User? <a href="register.html">Click here to register</a>
+    
 </body>
 
 </html>
