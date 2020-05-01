@@ -37,7 +37,16 @@
 </style>
 
 <body>
-    <request class="query"></request>
+    <script>
+    var q = window.location.search
+    var queryString = {};
+    q.replace(
+    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    function($0, $1, $2, $3) { queryString[$1] = $3; }
+    );
+    var q = (queryString)
+    document.write(queryString[0])
+    </script>
     <div>
         <button onclick="location.href = 'display.html'">RETURN</button>
     </div>

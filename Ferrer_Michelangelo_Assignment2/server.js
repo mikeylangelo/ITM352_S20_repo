@@ -3,13 +3,13 @@ var app = express();
 var bodyParser = require('body-parser'); //Load bodyParser for parsing any data that passes through the server
 app.use(bodyParser());
 var fs = require('fs'); //Load file system
-
+var qs = require('querystring'); //Load query string module
 //Use module from product_data.js and assign to variable
 var product_data = require('./public/info/product_data.js');
 var products = product_data.products;
 
 //Assign JSON files to a variable
-var udata = './public/info/userdata.json';
+var udata = './userdata.json';
 
 //Get raw data files
 var unparseduserdata = fs.readFileSync(udata, 'utf-8');
@@ -20,7 +20,9 @@ var userdata = JSON.parse(unparseduserdata);
 //Read the templates and assign to variable
 var invoice_contents = fs.readFileSync('./public/invoice.html', 'utf8');
 var display_contents = fs.readFileSync('./public/display.html', 'utf8');
-var error_contents = fs.readFileSync('./public/error.html', 'utf8');
+
+//Variable for all input data on display
+var user_quantities;
 
 //Indicate any requests coming in from the server
 app.all('*', function (request, response, next) {
@@ -42,28 +44,34 @@ app.get("/display.html", function (request, response) {
 
 app.post("/display.html", function (request, response, ) { //Handles all POST requests
     let POST = request.body; //Request the POST data from body
+    user_quantities = POST; //Assign POST to variable
+
+    var errs_array = []; //Assume no errors
 
     for (i = 0; i < products.length; i++) {
         p = POST[`quantity${i}`]
         console.log(p)
 
-        //Passes data through isNonNegInt() if it is false it create the invoice else it will redirect to an error page
-        if ((p<0) || (Number(p) != p)){
-            err_str = 'incorrect data'
-            response.redirect(`error.html?error=${err_str}`); //If it does not pass redirect to an error page.    
+         //If it is not a number or is negative, redirect to an error page.  
+        if ((p < 0) || (Number(p) != p)) {
+            errs_array[i] = 'incorrect data'
         }
+    }
 
-        //Quantities are okay. Redirect to login
-        else {
-            response.redirect(`login.html?quantity=p`);
-        }
-
+    //Check if err_array is greater than 0, if there is send to error
+    if (errs_array.length > 0) {
+        var q_str = qs.stringify(errs_array);
+        response.redirect(`error.html?${q_str}`);
+    }
+    //Quantities are okay. Redirect to login
+    else {
+        response.redirect(`login.html`);
     }
 });
 
 /* 
 Login and register were taken from Lab 14 completed by me. I also had
-some help watching the lectures completed by Professor Port.
+some help from Professor Port during class
 */
 
 app.post("/login.html", function (request, response) {
@@ -77,77 +85,37 @@ app.post("/login.html", function (request, response) {
 
     // Succesful login. Match password with username and generate invoice
     if (user_info["password"] == input_password) {
-            console.log('succesful login');
-            let POST = request.query
-            console.log(request.query)
             response.send(eval('`' + invoice_contents + '`'));
-            function display_invoice_table_rows() {
-                subtotal = 0;
-                str = '';
-                for (i = 0; i < products.length; i++) {
-                    p = POST[`quantity${i}`]; //Defines any POST requests which have been defined in display.html
-                    if (typeof POST[`quantity${i}`] != 'undefined') {
-                        console.log('No data');
-                    }
-                    /* Based on order_page.html of Lab 12 completed by me*/
-                    if (p > 0) {
-                        extended_price = p * products[i].price
-                        subtotal += extended_price;
-                        str += (`
-                            <tr>
-                                <td width="43%">${products[i].name}</td>
-                                <td align="center" width="11%">${p}</td>
-                                <td width="13%">\$${products[i].price.toFixed(2)}</td>
-                                <td width="54%">\$${extended_price.toFixed(2)}</td>
-                            </tr>
-                            `);
-                    }
-                }
-            
-                // Compute tax
-                tax_rate = 0.1;
-                tax = tax_rate * subtotal;
-            
-                // Compute grand total
-                grandtotal = subtotal + tax;
-            
-                return str;
-            }
         }
-        
-        
 
-    // If the password and username do not match redirect to error
-    else {
-        console.log('password and username dont match');
-        err_str = 'password and username dont match';
-        response.redirect(`./error.html?error=${err_str}`)
+        // If the password and username do not match redirect to error
+        else {
+            console.log('password and username dont match');
+            err_str = 'password and username dont match';
+            var q_str = qs.stringify(errs_array);
+            response.redirect(`error.html?${q_str}`);
         }
-    
-    // If the username does not exist
-    }
-    else {
-        console.log('invalid login data');
-    }
 
-    function display_error(){
-        request.query["error"];
+        // If the username does not exist
+         }
+        else {
+            console.log('invalid login data');
     }
 });
 
 app.post("/register.html", function (request, response) {
     //Create an array for the user data
-    username = request.body.username; 
-    userdata[username] = {}; 
+    username = request.body.username;
+    userdata[username] = {};
 
     //Assigns values to the array
-    userdata[username].name = request.body.name; 
+    userdata[username].name = request.body.name;
     userdata[username].password = request.body.password;
     userdata[username].repeatpassword = request.body.repeat_password;
     userdata[username].email = request.body.email;
 
     //Check if username exists, if so generate error
-    if (typeof userdata[username] != undefined){
+    if (typeof userdata[username] != undefined) {
         console.log('username taken');
     }
 
@@ -158,48 +126,14 @@ app.post("/register.html", function (request, response) {
 
     //Error if fields are left empty
     else if ((request.body.username == '') || (request.body.name == '') || (request.body.password == '') || (request.body.repeat_password == '')
-            || (request.body.email == '')) {
+        || (request.body.email == '')) {
         console.log('empty textbox')
     }
     //Succesful register. Save data and generate invoice
     else {
         console.log('success register');
         fs.writeFileSync(udata, JSON.stringify(userdata));
-        let POST = request.query
-        console.log(request.query)
         response.send(eval('`' + invoice_contents + '`'));
-            function display_invoice_table_rows() {
-                subtotal = 0;
-                str = '';
-                for (i = 0; i < products.length; i++) {
-                    p = POST[`quantity${i}`]; //Defines any POST requests which have been defined in display.html
-                    if (typeof POST[`quantity${i}`] != 'undefined') {
-                        console.log('No data');
-                    }
-                    /* Based on order_page.html of Lab 12 completed by me*/
-                    if (p > 0) {
-                        extended_price = p * products[i].price
-                        subtotal += extended_price;
-                        str += (`
-                            <tr>
-                                <td width="43%">${products[i].name}</td>
-                                <td align="center" width="11%">${p}</td>
-                                <td width="13%">\$${products[i].price.toFixed(2)}</td>
-                                <td width="54%">\$${extended_price.toFixed(2)}</td>
-                            </tr>
-                            `);
-                    }
-                }
-            
-                // Compute tax
-                tax_rate = 0.1;
-                tax = tax_rate * subtotal;
-            
-                // Compute grand total
-                grandtotal = subtotal + tax;
-            
-                return str;
-            }
     }
 });
 
@@ -238,13 +172,13 @@ function display_invoice_table_rows() {
     subtotal = 0;
     str = '';
     for (i = 0; i < products.length; i++) {
-        p = POST["quantity{i}"]; //Defines any POST requests which have been defined in display.html
-        if (typeof POST["quantity{i}"] != 'undefined') {
+        POST = user_quantities; //Gets the POST requests stored from display.html
+        p = POST[`quantity${i}`];
+        if (typeof POST[`quantity${i}`] != 'undefined') {
             console.log('No data');
         }
         /* Based on order_page.html of Lab 12 completed by me*/
         if (p > 0) {
-
             extended_price = p * products[i].price
             subtotal += extended_price;
             str += (`
@@ -267,3 +201,4 @@ function display_invoice_table_rows() {
 
     return str;
 }
+
