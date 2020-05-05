@@ -46,15 +46,19 @@ app.post("/display.html", function (request, response, ) { //Handles all POST re
     let POST = request.body; //Request the POST data from body
     user_quantities = POST; //Assign POST to variable
 
-    var errs_array = []; //Assume no errors
+    //Object for errors
+    var errs_array = []; //Assume no errors initially
 
     for (i = 0; i < products.length; i++) {
         p = POST[`quantity${i}`]
         console.log(p)
 
-         //If it is not a number or is negative, redirect to an error page.  
-        if ((p < 0) || (Number(p) != p)) {
-            errs_array[i] = 'incorrect data'
+        //If it is not a number or is negative, redirect to an error page.  
+        if (p < 0) {
+            errs_array[0] = 'No_negative_values!';
+        }
+        else if (Number(p) != p) {
+            errs_array[0] = 'No_letters_or_special_characters!';
         }
     }
 
@@ -75,6 +79,9 @@ some help from Professor Port during class
 */
 
 app.post("/login.html", function (request, response) {
+    //Object for errors
+    var errs_array = []; //Assume no errors initially
+
     // Assign variable to input data
     var input_username = request.body.username;
     var input_password = request.body.password;
@@ -82,56 +89,58 @@ app.post("/login.html", function (request, response) {
     // Check if the type of data in input username is defined in user_data.json file
     if (typeof userdata[input_username] != 'undefined') {
         var user_info = userdata[input_username];
-
-    // Succesful login. Match password with username and generate invoice
-    if (user_info["password"] == input_password) {
+        // Succesful login. Match password with username and generate invoice
+        if (user_info["password"] == input_password) {
             response.send(eval('`' + invoice_contents + '`'));
         }
 
         // If the password and username do not match redirect to error
         else {
-            console.log('password and username dont match');
-            err_str = 'password and username dont match';
+            errs_array[0] = 'Incorrect_username_or_password.'
             var q_str = qs.stringify(errs_array);
             response.redirect(`error.html?${q_str}`);
         }
 
         // If the username does not exist
-         }
-        else {
-            console.log('invalid login data');
+    }
+    else {
+        errs_array[0] = 'Username_does_not_exist._Please_register!'
+        var q_str = qs.stringify(errs_array);
+        response.redirect(`error.html?${q_str}`);
     }
 });
 
 app.post("/register.html", function (request, response) {
-    //Create an array for the user data
-    username = request.body.username;
-    userdata[username] = {};
-
-    //Assigns values to the array
-    userdata[username].name = request.body.name;
-    userdata[username].password = request.body.password;
-    userdata[username].repeatpassword = request.body.repeat_password;
-    userdata[username].email = request.body.email;
-
-    //Check if username exists, if so generate error
-    if (typeof userdata[username] != undefined) {
-        console.log('username taken');
-    }
-
-    //Error if passwords don't match
-    if (request.body.password != request.body.repeat_password) {
-        console.log('passwords dont match');
-    }
+    //Object for errors
+    var errs_array = []; //Assume no errors initially
 
     //Error if fields are left empty
-    else if ((request.body.username == '') || (request.body.name == '') || (request.body.password == '') || (request.body.repeat_password == '')
-        || (request.body.email == '')) {
-        console.log('empty textbox')
+    if ((request.body.username == '') || (request.body.name == '') || (request.body.password == '') || (request.body.repeat_password == '')
+    || (request.body.email == '')) {
+        errs_array[0] = 'You_have_left_areas_blank!'
     }
-    //Succesful register. Save data and generate invoice
-    else {
-        console.log('success register');
+
+    //Check if username exists, if so generate error
+    if (userdata[request.body.username] != undefined){
+        errs_array[0] = 'Username_taken!'
+    }
+
+     //Error if passwords don't match
+    if(request.body.password != request.body.repeat_password){
+        errs_array[0] = 'Your_passwords_do_not_match!'
+    }
+
+    //Check for succesful register. Save data and generate invoice
+    if(errs_array.length > 0) {
+        var q_str = qs.stringify(errs_array);
+        response.redirect(`error.html?${q_str}`);
+        
+    }else{
+        userdata[request.body.username] = {};
+        userdata[request.body.username].name = request.body.name;
+        userdata[request.body.username].password = request.body.password;
+        userdata[request.body.username].repeatpassword = request.body.repeat_password;
+        userdata[request.body.username].email = request.body.email;
         fs.writeFileSync(udata, JSON.stringify(userdata));
         response.send(eval('`' + invoice_contents + '`'));
     }
@@ -174,9 +183,6 @@ function display_invoice_table_rows() {
     for (i = 0; i < products.length; i++) {
         POST = user_quantities; //Gets the POST requests stored from display.html
         p = POST[`quantity${i}`];
-        if (typeof POST[`quantity${i}`] != 'undefined') {
-            console.log('No data');
-        }
         /* Based on order_page.html of Lab 12 completed by me*/
         if (p > 0) {
             extended_price = p * products[i].price
@@ -201,4 +207,5 @@ function display_invoice_table_rows() {
 
     return str;
 }
+
 

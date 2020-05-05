@@ -22,8 +22,7 @@
         top: 50%;
         left: 50%;
         margin-top: -100px;
-        margin-left: -350px;
-
+        margin-left: -40px;
     }
 
     button {
@@ -37,19 +36,27 @@
 </style>
 
 <body>
+    
     <script>
+    /*
+    I found this code online from Steven Benner. It is used to put the query string in an
+    object. I created the replace and toString(). The button is to return to previous page.
+    */  
     var q = window.location.search
     var queryString = {};
     q.replace(
     new RegExp("([^?=&]+)(=([^&]*))?", "g"),
     function($0, $1, $2, $3) { queryString[$1] = $3; }
     );
-    var q = (queryString)
-    document.write(queryString[0])
+    
+    //Make the queryString into a string. Afterwards 
+    var stringerror = queryString[0].toString()
+    var error = stringerror.replace(/_/g," ");
+    document.write(error)
     </script>
-    <div>
-        <button onclick="location.href = 'display.html'">RETURN</button>
-    </div>
+    <br>
+    <button onclick="window.history.go(-1)">RETURN</button>
+
 </body>
 
 </html>
