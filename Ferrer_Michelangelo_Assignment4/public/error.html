@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Florist</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
+</head>
+
+<style>
+    body {
+        text-align: center;
+        background-image: url(./images/errorimage.png);
+        background-size: 1000px;
+        font-family: 'Dosis';
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    div {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -100px;
+        margin-left: -40px;
+    }
+
+    button {
+        font-family: 'Dosis';
+        font-size: 20px;
+        background-color: rgb(197, 21, 21);
+        color: white;
+        border: none;
+        margin-top: 25px;
+    }
+</style>
+
+<body>
+    
+    <script>
+    /*
+    I found this code online from Steven Benner. It is used to put the query string in an
+    object. I created the replace and toString(). The button is to return to previous page.
+    */  
+    var q = window.location.search
+    var queryString = {};
+    q.replace(
+    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    function($0, $1, $2, $3) { queryString[$1] = $3; }
+    );
+    
+    //Make the queryString into a string. Afterwards 
+    var stringerror = queryString[0].toString()
+    var error = stringerror.replace(/_/g," ");
+    document.write(error)
+    </script>
+    <br>
+    <button onclick="window.history.go(-1)">RETURN</button>
+
+</body>
+
+</html>
+

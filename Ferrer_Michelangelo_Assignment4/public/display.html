@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Shop</title>
+    <script src="product_data.js"></script>
+</head>
+
+<style>
+    body {
+        background-image: url(./images/displaybackground.jpg);
+        background-size: 1300px;
+
+    }
+
+    nav {
+        text-align:unset;
+    }
+
+    p {
+        font-family: 'Dosis';
+        font-size: 23px;
+    }
+
+    h1 {
+        font-family: 'Princess Sofia';
+        font-size: 100px;
+    }
+
+    main {
+        font-family: 'Averia Sans Libre';
+        font-size: 20px;
+    }
+
+    img {
+        height: 250px;
+        width: 250px;
+        margin-top: 25px;
+        margin-left: 25px;
+        margin-right: 25px;
+
+    }
+
+    div {
+        text-align: center;
+        margin-right: 25px;
+
+    }
+
+    form {
+        text-align: center;
+
+    }
+
+    header {
+        text-align: center;
+    }
+
+    input[type=text] {
+        text-align: center;
+        font-family: 'Dosis';
+        font-size: 15px
+    }
+
+    input[type=submit] {
+        font-family: 'Dosis';
+        font-weight: bold;
+        font-size: 40px;
+        background-color: rgb(214, 182, 0);
+        color: white;
+        border: none;
+        margin-right: 25px;
+        margin-top: 25px;
+    }
+</style>
+
+<body>
+
+    <header>
+
+        <h1>Local Florist</h1>
+        <p>Enter the quantity of products you would like to include in your shopping cart.<br>
+            Feel free to look at all of our selections. <br>
+            When your are done, click "Proceed" at the bottom to continue.
+        </p>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="index.html">My Account</a></li>
+        </ul>
+    </nav>
+
+    </header>
+
+    <form name="form" method="POST" action="/">
+        <select name="recipient" id="recipient" size="1" onChange="chgAction()">
+            <option value="" selected="selected">Select</option>
+            <option>Bouquets</option>
+            <option>Seeds</option>
+            <option>Soil</option>
+            <option>Accessories</option>
+        </select>
+
+        <input type="submit">
+    </form>
+    <p id="message"></p>
+    <form name='Flowers' action="" method="POST">
+        <main>
+            ${display_products()}
+        </main>
+        <br>
+        <input type='submit' name='purchase_flowers' value="Proceed">
+    </form>
+</body>
+
+</html>
+
+<script>
+    /*
+    The function and the form originated from a stack overflow forum. The user was anonymous.
+    I added/modified it to fit my website. It works by running a function anytime the user switches 
+    values. When the value is switched, the function changes the action of the form. The action will change
+    the type of data that is displayed
+    */
+    function chgAction() {
+        var form = document.form;
+        switch (form.recipient.selectedIndex) {
+            case 1:
+                form.action = "/bouquet";
+                break;
+            case 2:
+                form.action = "/seed";
+                break;
+            case 3:
+                form.action = "/soil";
+                break;
+            case 4:
+                form.action = "/accessory";
+                break;
+        }
+    }
+</script>
