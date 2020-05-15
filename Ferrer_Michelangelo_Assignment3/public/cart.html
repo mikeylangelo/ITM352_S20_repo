@@ -1,3 +1,15 @@
+<script>
+  // Michelangelo Ferrer's Assignment 3 Shopping Cart
+
+  /*
+  It is copied from the invoice.html completed by me
+  Server will read cart.html and store it as 'contents' using readFileSync.
+  This is why we do not need cart in script, since it will read the template
+  strings automatically.
+
+  The layout and table structure was based on order_page.html of Lab 12 by me.
+  */
+</script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,18 +20,6 @@
   <title>Local Florist</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
 </head>
-
-<script>
-  // Comments
-
-  /*
-  Server will read invoice.html and store it as 'contents' using readFileSync.
-  This is why we do not need invoice in script, since it will read the template
-  strings automatically.
-
-  The layout and table structure was based on order_page.html of Lab 12 by me.
-  */
-</script>
 
 <style>
   table {
@@ -35,6 +35,10 @@
     font-size: 40px;
   }
 
+  p[id='policy']{
+    font-size:15px;
+  }
+
   section {
     text-align: center;
   }
@@ -43,6 +47,12 @@
     width: 150px;
     height: 100px
   }
+
+  input[type=number] {
+        text-align: center;
+        font-family: 'Dosis';
+        font-size: 15px;
+    }
   
   button {
         font-family: 'Dosis';
@@ -75,7 +85,14 @@
     </tbody>
   </table>
 </form>
-<button onclick="window.history.go(-1)">RETURN</button>
+<button onclick="window.history.go(-1)">Continue Shopping</button>
+<div>
+  <p id='policy'>
+    SHIPPING POLICY: Any orders above $50.00 will be charged $5.00 for shipping<br>
+    Orders above $25.00 will be charged $2.50 for shipping. All other orders will be <br>
+    charged 5% of their total.
+  </p>
+</div>
   <section>
     <img src="images/thankyou.jpg">
   </section>
