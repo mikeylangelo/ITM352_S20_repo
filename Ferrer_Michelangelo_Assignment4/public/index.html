@@ -40,7 +40,7 @@
     <p>Our company sells various flower related products for any need!<p>
 
             <form name="form" method="POST" action="/">
-                <select name="recipient" id="recipient" size="1" onChange="chgAction()">
+                <select id="store" size="1" onChange="chgAction()">
                     <option value="" selected="selected">Select</option>
                     <option>Bouquets</option>
                     <option>Seeds</option>
@@ -64,7 +64,7 @@
     */
     function chgAction() {
         var form = document.form;
-        switch (form.recipient.selectedIndex) {
+        switch (form.store.selectedIndex) {
             case 1:
                 form.action = "/bouquet";
                 break;

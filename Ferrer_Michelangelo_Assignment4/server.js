@@ -44,61 +44,34 @@ Their are different arrays for every type of option in the product_data.js file
 app.post("/bouquet", function (request, response) {
     var bouquet_data = require('./public/info/bouquet_data.js');
     var products = bouquet_data.products;
-    response.redirect('display.html');
+    response.send(eval('`' + display_contents + '`'));
 });
 
 app.post("/seed", function (request, response) {
-    var seed_data = require('./public/info/seed_data.js');
+    var seed_data = require('../Ferrer_Michelangelo_Assignment3/public/info/seed_data.js');
     var products = seed_data.products;
     response.redirect('display.html');
 });
 
 app.post("/soil", function (request, response) {
-    var soil_data = require('./public/info/soil_data.js');
+    var soil_data = require('../Ferrer_Michelangelo_Assignment3/public/info/soil_data.js');
     var products = soil_data.products;
     response.redirect('display.html');
 });
 
 app.post("/accessory", function (request, response) {
-    var accessory_data = require('./public/info/accessory_data.js');
+    var accessory_data = require('../Ferrer_Michelangelo_Assignment3/public/info/accessory_data.js');
     var products = accessory_data.products;
     response.redirect('display.html');
 });
 
 app.get("/display.html", function (request, response, ) {
-     //Evaluates the display_contents variable which contains a function that creates dislpay page
-     response.send(eval('`' + display_contents + '`'));
+    //Evaluates the display_contents variable which contains a function that creates dislpay page
+    response.send(eval('`' + display_contents + '`'));
 });
 
-app.post("/display.html", function (request, response, ) { //Handles all POST requests
-    let POST = request.body; //Request the POST data from body
-    user_quantities = POST; //Assign POST to variable
+app.post("/process_purchase", function (request, response, ) { //Handles all POST requests from the form
 
-    //Object for errors
-    var errs_array = []; //Assume no errors initially
-
-    for (i = 0; i < products.length; i++) {
-        p = POST[`quantity${i}`]
-        console.log(p)
-
-        //If it is not a number or is negative, redirect to an error page.  
-        if (p < 0) {
-            errs_array[0] = 'No_negative_values!';
-        }
-        else if (Number(p) != p) {
-            errs_array[0] = 'No_letters_or_special_characters!';
-        }
-    }
-
-    //Check if err_array is greater than 0, if there is send to error
-    if (errs_array.length > 0) {
-        var q_str = qs.stringify(errs_array);
-        response.redirect(`error.html?${q_str}`);
-    }
-    //Quantities are okay. Redirect to login
-    else {
-        response.redirect(`login.html`);
-    }
 });
 
 /* 
@@ -144,26 +117,26 @@ app.post("/register.html", function (request, response) {
 
     //Error if fields are left empty
     if ((request.body.username == '') || (request.body.name == '') || (request.body.password == '') || (request.body.repeat_password == '')
-    || (request.body.email == '')) {
+        || (request.body.email == '')) {
         errs_array[0] = 'You_have_left_areas_blank!'
     }
 
     //Check if username exists, if so generate error
-    if (userdata[request.body.username] != undefined){
+    if (userdata[request.body.username] != undefined) {
         errs_array[0] = 'Username_taken!'
     }
 
-     //Error if passwords don't match
-    if(request.body.password != request.body.repeat_password){
+    //Error if passwords don't match
+    if (request.body.password != request.body.repeat_password) {
         errs_array[0] = 'Your_passwords_do_not_match!'
     }
 
     //Check for succesful register. Save data and generate invoice
-    if(errs_array.length > 0) {
+    if (errs_array.length > 0) {
         var q_str = qs.stringify(errs_array);
         response.redirect(`error.html?${q_str}`);
-        
-    }else{
+
+    } else {
         userdata[request.body.username] = {};
         userdata[request.body.username].name = request.body.name;
         userdata[request.body.username].password = request.body.password;
@@ -178,27 +151,20 @@ app.post("/register.html", function (request, response) {
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`Listening...`));
 
-
 /*Functions*/
 //Used in response.send(eval(contents)) app.get(display.html). Generates display page
 function display_products() {
     str = '';
     for (i = 0; i < products.length; i++) {
         str += `
-    <section>
-        <div>
-        <img src="/images/${products[i].image}">
+        <div class="item">
+            <span class="item-name">${products[i].name}</span>
+            <img class="item-image" src="/images/${products[i].image}">
+            <div class="item-details">
+                <span class="item-price">$${products[i].price.toFixed(2)}</span>
+                <button type="button" class="shop-item">ADD TO CART</button>
+            </div>
         </div>
-     </section>
-     <section>
-        <div>
-         ${products[i].name}:
-         $${products[i].price.toFixed(2)}
-         </div>
-         <div>
-         <input type="text" name="quantity${i}">
-         </div
-     </section>
         `;
     }
     return str;
@@ -234,6 +200,33 @@ function display_invoice_table_rows() {
     grandtotal = subtotal + tax;
 
     return str;
+}
+
+
+
+
+/*
+The function and the form originated from a stack overflow forum. The user was anonymous.
+I added/modified it to fit my website. It works by running a function anytime the user switches 
+values. When the value is switched, the function changes the action of the form. The action will change
+the type of data that is displayed
+*/
+function chgAction() {
+    var form = document.form;
+    switch (form.recipient.selectedIndex) {
+        case 1:
+            form.action = "/bouquet";
+            break;
+        case 2:
+            form.action = "/seed";
+            break;
+        case 3:
+            form.action = "/soil";
+            break;
+        case 4:
+            form.action = "/accessory";
+            break;
+    }
 }
 
 

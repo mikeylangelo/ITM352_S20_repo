@@ -1,0 +1,156 @@
+<script>
+    /*
+    Michelangelo Ferrer's Display Page
+
+    This will be the same for all of the display pages. It is a template which loads functions such as
+    welcome_message and display_products. Those functions were defined and executed when the server is notified
+    that this page is loaded.
+    */
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Florist</title>
+    <script>
+        /*
+        The function and the form originated from a stack overflow forum. The user was anonymous.
+        I added/modified it to fit my website. It works by running a function anytime the user switches 
+        values. When the value is switched, the function changes the action of the form. The action will change
+        the type of data that is displayed
+        */
+        function chgAction() {
+            var form = document.form;
+            switch (form.store.selectedIndex) {
+                case 1:
+                    form.action = "/bouquet.html";
+                    break;
+                case 2:
+                    form.action = "/seed.html";
+                    break;
+                case 3:
+                    form.action = "/soil.html";
+                    break;
+                case 4:
+                    form.action = "/accessory.html";
+                    break;
+            }
+        }
+    </script>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-image: url(./images/displaybackground.jpg);
+        background-size: 1300px;
+
+    }
+
+    p {
+        font-family: 'Dosis';
+        font-size: 23px;
+        text-align: center;
+    }
+
+    h1 {
+        font-family: 'Princess Sofia';
+        font-size: 100px;
+        text-align: center;
+    }
+
+    section {
+        font-family: 'Averia Sans Libre';
+        font-size: 20px;
+    }
+
+    img {
+        height: 250px;
+        width: 250px;
+        margin-top: 25px;
+        margin-left: 25px;
+        margin-right: 25px;
+
+    }
+
+    div {
+        text-align: center;
+        margin-right: 25px;
+
+    }
+
+    form {
+        text-align: center;
+    }
+
+    option,
+    select,
+    input[id='changePage'],
+    input[type=text] {
+        text-align: center;
+        font-family: 'Dosis';
+        font-size: 15px;
+        margin-top: 15px;
+    }
+
+    input[id='addToCart'] {
+        font-family: 'Dosis';
+        font-size: 25px;
+        margin-top: 15px;
+    }
+
+    header {
+        background-color: beige;
+        text-align: center;
+        font-family: 'Dosis';
+        font-size: 40px;
+    }
+
+    input[id='viewCart'] {
+        font-family: 'Dosis';
+        font-size: 25px;
+        background-color: rgb(197, 21, 21);
+        color: white;
+        margin-top: 15px;
+        margin-left: 1000px;
+    }
+</style>
+
+<body>
+    <header>
+        ${welcome_message()}
+    </header>
+    <form action="/viewCart" method="post">
+        <input type="submit" id="viewCart" value="Shopping Cart">
+    </form>
+
+    <h1>Local Florist</h1>
+    <p>Choose the quantity of items you want to include with your purchase.<br>
+        Make sure you click 'Add To Cart' before switching pages or viewing your cart.
+    </p>
+
+    <form name="form" method="GET" action="/">
+        <select id="store" size="1" onChange="chgAction()">
+            <option value="" selected="selected">Select</option>
+            <option>Bouquets</option>
+            <option>Seeds</option>
+            <option>Soil</option>
+            <option>Accessories</option>
+        </select>
+        <input value="View Shop" id="changePage" type="submit">
+    </form>
+
+    <form action="/addToCart" method="POST">
+        ${display_products()}
+        <br>
+    </form>
+</body>
+
+</html>

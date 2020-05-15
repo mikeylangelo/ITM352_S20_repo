@@ -6,120 +6,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flower Shop</title>
-    <script src="product_data.js"></script>
+    <script src="server.js" async></script>
 </head>
 
-<style>
-    body {
-        background-image: url(./images/displaybackground.jpg);
-        background-size: 1300px;
 
-    }
-
-    nav {
-        text-align:unset;
-    }
-
-    p {
-        font-family: 'Dosis';
-        font-size: 23px;
-    }
-
-    h1 {
-        font-family: 'Princess Sofia';
-        font-size: 100px;
-    }
-
-    main {
-        font-family: 'Averia Sans Libre';
-        font-size: 20px;
-    }
-
-    img {
-        height: 250px;
-        width: 250px;
-        margin-top: 25px;
-        margin-left: 25px;
-        margin-right: 25px;
-
-    }
-
-    div {
-        text-align: center;
-        margin-right: 25px;
-
-    }
-
-    form {
-        text-align: center;
-
-    }
-
-    header {
-        text-align: center;
-    }
-
-    input[type=text] {
-        text-align: center;
-        font-family: 'Dosis';
-        font-size: 15px
-    }
-
-    input[type=submit] {
-        font-family: 'Dosis';
-        font-weight: bold;
-        font-size: 40px;
-        background-color: rgb(214, 182, 0);
-        color: white;
-        border: none;
-        margin-right: 25px;
-        margin-top: 25px;
-    }
-</style>
 
 <body>
 
     <header>
 
         <h1>Local Florist</h1>
+
+        <nav>
+            <ul>
+                <ul><a href="index.html">HOME</a></ul>
+                <ul><a href="index.html">My Account</a></ul>
+            </ul>
+        </nav>
+
+        
         <p>Enter the quantity of products you would like to include in your shopping cart.<br>
             Feel free to look at all of our selections. <br>
             When your are done, click "Proceed" at the bottom to continue.
         </p>
-
-    <nav>
-        <ul>
-            <li><a href="index.html">HOME</a></li>
-            <li><a href="index.html">My Account</a></li>
-        </ul>
-    </nav>
-
+        <br>
     </header>
 
-    <form name="form" method="POST" action="/">
+    <form name="form" method="POST" action="/shopCart">
         <select name="recipient" id="recipient" size="1" onChange="chgAction()">
-            <option value="" selected="selected">Select</option>
+            <option value="" selected="selected">Change Shop</option>
             <option>Bouquets</option>
             <option>Seeds</option>
             <option>Soil</option>
             <option>Accessories</option>
         </select>
-
         <input type="submit">
     </form>
-    <p id="message"></p>
-    <form name='Flowers' action="" method="POST">
-        <main>
+
             ${display_products()}
-        </main>
-        <br>
-        <input type='submit' name='purchase_flowers' value="Proceed">
-    </form>
+
+    <section>
+        <p>Shopping Cart</p>
+        <div>
+            <span>Item</span>
+            <span>Price</span>
+            <span>Quantity</span>
+        </div>
+        <div class="cart-item">
+            <div class="cart-row">
+                <div class="cart-column">
+                    <img class="item-image">
+                    <span class="item-title">ITEM</span>
+                </div>
+                <span class="cart-price">20.00</span>
+                <div class="cart-column">
+                    <input class="quantity-input" type="number" value="1">
+                    <button class="item-remove" type="button">REMOVE</button>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>
 
 <script>
+    // We must define some functions here since they aren't global. The loops and functions were taken from YouTube WebDevSimplified.
+    if (document.readyState == 'loading'){  //Makes sure the page is loaded before running the javascript
+        document.addEventListener('DOMContentLoaded', ready)
+    } else{
+        ready()
+    }
+
+    function ready() { 
+        var addToCart = document.getElementsByClassName('shop-item') //Gets the button crearted by server
+        for (var i=0; i < addToCart.length; i++){//Loop which notifies whenever the button is clicked
+            var button = addToCart[i]
+            button.addEventListener('click', addToCartClicked)//Says run addToCartClicked function whenever button is pressed
+        }
+    }
+
+    function addToCartClicked(event){
+        var button = event.target;
+        var shopItem = button.parentElement.parentElement;
+        var name = shopItem.getElementsByClassName("item-name")[0].innerText;
+        var price = shopItem.getElementsByClassName("item-price")[0].innerText;
+        var image = shopItem.getElementsByClassName("item-image")[0].src;
+        addItemToCart(name, price, image);
+    };
+
+    function addItemToCart(name, price, image){
+        var cartRow = document.createElement('div');
+        cartRow.innerText = name;
+        var cartItems = document.getElementsByClassName('cart-item')[0]
+        cartItems.append(cartRow)
+    }
+
+
     /*
     The function and the form originated from a stack overflow forum. The user was anonymous.
     I added/modified it to fit my website. It works by running a function anytime the user switches 

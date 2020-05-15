@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
+</head>
+
+<style>
+header{
+        font-family: 'Averia Sans Libre';
+        font-size: 50px;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+body {
+        background-image: url(./images/logregbackground.jpg);
+        background-size: 1150px;
+
+    }
+
+form{
+    text-align: center;
+}
+
+input[type=text], input[type=password], input[type=email] {
+        text-align: center;
+        font-family: 'Dosis';
+        font-size: 15px
+    }
+
+input[type=submit] {
+        font-family: 'Dosis';
+        font-weight: bold;
+        font-size: 25px;
+        background-color: rgb(197, 21, 109);
+        color: white;
+        border: none;
+        margin-top: 25px;
+    }
+
+</style>
+
+<body>
+    <header>
+        Registration allows you to purchase products faster!
+    </header>
+        <form action="" method="POST">
+            <input type="text" name="name" size="40" placeholder="Enter name" ><br />
+            <input type="text" name="username" size="40" placeholder="Enter username" ><br />
+            <input type="password" name="password" size="40" placeholder="Enter password"><br />
+            <input type="password" name="repeat_password" size="40" placeholder="Repeat password"><br />
+            <input type="email" name="email" size="40" placeholder="Enter e-mail"><br />
+        <input type="submit" value="Register" id="submit">
+        </form>
+</body>
+</html>

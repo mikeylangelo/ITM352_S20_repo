@@ -150,7 +150,6 @@ app.post("/register.html", function (request, response) {
 app.use(express.static('./public'));
 app.listen(8080, () => console.log(`Listening...`));
 
-
 /*Functions*/
 //Used in response.send(eval(contents)) app.get(display.html). Generates display page
 function display_products() {

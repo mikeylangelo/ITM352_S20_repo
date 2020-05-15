@@ -1,0 +1,96 @@
+<script>
+    //Michelangelo Ferr's Assignment 3 Home Page
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Florist</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis|Princess+Sofia|Averia+Sans+Libre">
+<script>
+    /*
+    The function and the form originated from a stack overflow forum. The user was anonymous.
+    I added/modified it to fit my website. It works by running a function anytime the user switches 
+    values. When the value is switched, the function changes the action of the form. The action will change
+    the type of data that is displayed
+    */
+    function chgAction() {
+        var form = document.form;
+        switch (form.store.selectedIndex) {
+            case 0:
+                form.action = "/";
+                break;
+            case 1:
+                form.action = "/bouquet.html";
+                break;
+            case 2:
+                form.action = "/seed.html";
+                break;
+            case 3:
+                form.action = "/soil.html";
+                break;
+            case 4:
+                form.action = "/accessory.html";
+                break;
+        }
+    }
+</script>
+</head>
+
+<style>
+    option,
+    select,
+    input {
+        text-align: center;
+        font-family: 'Dosis';
+        font-size: 15px;
+    }
+
+
+    body {
+        text-align: center;
+        background-image: url(./images/indexbackground.png);
+        background-size: 1300px;
+    }
+
+    h1 {
+        font-family: 'Princess Sofia';
+        font-size: 100px;
+    }
+
+    p {
+        font-family: 'Dosis';
+        font-size: 23px;
+    }
+
+    button {
+        font-family: 'Dosis';
+        font-size: 40px;
+        background-color: rgb(197, 21, 21);
+        color: white;
+        border: none;
+    }
+</style>
+
+<body>
+    <h1>Local Florist</h1>
+    <p>Our company sells various flower related products for any need!<p>
+
+            <form name="form" method="GET" action="/">
+                <select id="store" size="1" onChange="chgAction()">
+                    <option value="" selected="selected">Select</option>
+                    <option>Bouquets</option>
+                    <option>Seeds</option>
+                    <option>Soil</option>
+                    <option>Accessories</option>
+                </select>
+
+                <input value="View Shop" type="submit">
+            </form>
+
+</body>
+
+</html>
