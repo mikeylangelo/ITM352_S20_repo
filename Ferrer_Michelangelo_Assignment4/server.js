@@ -63,12 +63,7 @@ app.post("/accessory", function (request, response) {
     var accessory_data = require('../Ferrer_Michelangelo_Assignment3/public/info/accessory_data.js');
     var products = accessory_data.products;
     response.redirect('display.html');
-});
-
-app.get("/display.html", function (request, response, ) {
-    //Evaluates the display_contents variable which contains a function that creates dislpay page
-    response.send(eval('`' + display_contents + '`'));
-});
+}); 
 
 app.post("/process_purchase", function (request, response, ) { //Handles all POST requests from the form
 
